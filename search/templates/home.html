@@ -1,0 +1,110 @@
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Searchbid</title>
+<style>
+  .spinner {
+    margin: 100px auto;
+    width: 32px;
+    height: 32px;
+    position: relative;
+  }
+
+  .cube1, .cube2 {
+    background-color: #4CAF50;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: cubemove 1.8s infinite ease-in-out;
+    animation: cubemove 1.8s infinite ease-in-out;
+  }
+
+  .cube2 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+  }
+
+  @-webkit-keyframes cubemove {
+    25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+    50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+    75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+    100% { -webkit-transform: rotate(-360deg) }
+  }
+
+  @keyframes cubemove {
+    25% { 
+      transform: translateX(42px) rotate(-90deg) scale(0.5);
+      -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+    } 50% { 
+      transform: translateX(42px) translateY(42px) rotate(-179deg);
+      -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+    } 50.1% { 
+      transform: translateX(42px) translateY(42px) rotate(-180deg);
+      -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+    } 75% { 
+      transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+      -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    } 100% { 
+      transform: rotate(-360deg);
+      -webkit-transform: rotate(-360deg);
+    }
+}
+</style>
+</head>
+<body>
+<header>
+  <nav class="nav-top">
+    <div class="nav-wrapper">
+      <ul class="right">
+        <li><a href="/accounts/logout/" alt="cerrar sesion"><i class="mdi-action-exit-to-app"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+<div class="breadcrumbs">
+  <div class="green darken-2 white-text">
+    version 0.1
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 offset-m3 m6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title black-text">Buscador de licitaciones</span>
+
+        <form action="." method="post" id="search-form"> {% csrf_token %}                   
+          <div class="row">
+            <strong>Palabras claves:</strong> {% for w in words %} {{ w }}, {% endfor %}
+          </div>
+            <div class="card-action center-align">
+              <button type="submit" class="btn btn-primary" id="btn-search"><i class="mdi-action-search"></i> Buscar</button>
+            </div>
+           <div align="center" id="msg" style="display: none"><small>Espere por favor, esta operacion puede tardar un poco...</small></div>
+          </form>
+        </div>
+      </div>
+      <div class="spinner" style="display: none" id="spinner">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+      </div>
+    </div>
+  </div>
+  </main>
+  <script>
+    $("#search-form").submit(function(e){
+        $("#btn-search").attr('disabled','disabled'); 
+        $("#spinner").show();
+        $("#msg").show();
+    });  
+  </script>
+  </body>
+  </html>

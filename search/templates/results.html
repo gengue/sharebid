@@ -1,0 +1,78 @@
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Searchbid</title>
+  </head>
+  <body>
+
+<header>
+  <nav class="nav-top">
+    <div class="nav-wrapper">
+      <ul class="left">
+        <li><a href="/" alt="inicio"><i class="mdi-action-home"></i></a></li>
+      </ul>
+      <ul class="right">
+        <li><a href="/accounts/logout/" alt="cerrar sesion"><i class="mdi-action-exit-to-app"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+<div class="breadcrumbs">
+  <div class="green darken-2 white-text">
+    version 0.1
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="card">
+    <div class="card-content">
+    <h2 style="text-align: center">Resultados</h2>
+      <div class="col s12">
+         <table class="table dataTable no-footer dtr-inline">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Numero del proceso</th>
+              <th>Tipo del proceso</th>
+              <th>Estado</th>
+              <th>Entidad</th>
+              <th>Objeto</th>
+              <th>Departamento y Municipio de ejecucion</th>
+              <th>Cuantia</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in results %}
+            <tr>
+              <td>{{ row.id }}</td>
+              <td><a href="{{ row.num_proceso_valor }}">{{ row.num_proceso_titulo }}</a></td>
+              <td>{{ row.tipo_proceso }}</td>
+              <td>{{ row.estado }}</td>
+              <td>{{ row.entidad }}</td>
+              <td>{{ row.objeto }}</td>
+              <td>{{ row.lugar }}</td>
+              <td>{{ row.cuantia }}</td>
+              <td>{{ row.fecha }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+           
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </main>
+
+  </body>
+</html>
