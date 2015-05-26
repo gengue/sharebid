@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'ss!x!8tgpkzovj$cde8%!6it(zg)n&rv@z6r+12rnkr_#qq=7k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -133,6 +133,7 @@ MEDIA_URL = '/media/'
 
 if not DEBUG:
     DATABASES['default'] =  dj_database_url.config()
+    DATABASES['default']['ENGINE'] = 'django_postgrespool'
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     ALLOWED_HOSTS = ["*"]
 
