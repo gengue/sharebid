@@ -81,5 +81,18 @@
      <script type="text/javascript">
       $('#dataTable').DataTable();
     </script>
+    <script type="text/javascript">
+      function popUpSecop(urlSolicitud) {
+          var urlSecop = /pro.contratos.gov.co/i;
+          var urlEntrada = urlSolicitud;
+          var result = urlEntrada.search(urlSecop);
+          
+          if (result != -1) {
+            alert('error, contacte al administrador del sitio');
+          } else {
+            window.open('https://www.contratos.gov.co/'+urlSolicitud);
+          }
+        }
+    </script>
     </body>
   </html>
