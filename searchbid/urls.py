@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^$', views.Home.as_view(), name='home'),
     url(r'^accounts/login/$', views.Login.as_view(), name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name="logout"),
+    
 ]

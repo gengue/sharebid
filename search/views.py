@@ -7,17 +7,18 @@ from BeautifulSoup import BeautifulSoup
 import requests
 
 
+
 class Home(LoginRequiredMixin, View):
     template_name = 'home.html'
     url = "https://www.contratos.gov.co/consultas/resultadosConsulta.do?codi_estado=2&numeroProceso=#"
 
     def get(self, request):
-        key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
+         key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
 
-        return render(request, self.template_name, {"words": key_words})
+         return render(request, self.template_name, {"words": key_words})
 
     def post(self, request):
-        r = requests.post(self.url, data={'tipoProceso': 1, 'objeto': '10000000', 'registrosXPagina': '15000'})
+        r = requests.post(self.url, data={'tipoProceso': 1, 'objeto': '10000000', 'registrosXPagina': '15000',})
         soup = BeautifulSoup(r.text)
         results = []
         key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
@@ -41,7 +42,7 @@ class Home(LoginRequiredMixin, View):
             "estado": tr('td')[3].string,
             "entidad": tr('td')[4].string,
             "objeto": tr('td')[5].string,
-            "lugar": tr('td')[6].string,
+            "lugar": tr('td')[6].text,
             "cuantia": tr('td')[7].string,
             "fecha": tr('td')[8].string
         }
@@ -75,7 +76,6 @@ class Login(View):
             return render(request, self.template_name, args)
 
         return render(request, self.template_name, args)
-
 
 
 

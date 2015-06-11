@@ -55,6 +55,8 @@
       -webkit-transform: rotate(-360deg);
     }
 }
+
+
 </style>
 </head>
 <body>
@@ -79,16 +81,82 @@
   <div class="col s12 offset-m3 m6">
     <div class="card">
       <div class="card-content">
-        <span class="card-title black-text">Buscador de licitaciones</span>
+            <span class="card-title black-text">Buscador de licitaciones</span>
 
-        <form action="." method="post" id="search-form"> {% csrf_token %}                   
-          <div class="row">
-            <strong>Palabras claves:</strong> {% for w in words %} {{ w }}, {% endfor %}
-          </div>
-            <div class="card-action center-align">
-              <button type="submit" class="btn btn-primary" id="btn-search"><i class="mdi-action-search"></i> Buscar</button>
-            </div>
-           <div align="center" id="msg" style="display: none"><small>Espere por favor, esta operacion puede tardar un poco...</small></div>
+          <form action="." method="post" id="search-form"> {% csrf_token %}                   
+              <div class="row">
+                <strong>Palabras claves:</strong> {% for w in words %} {{ w }}, {% endfor %}
+              </div>
+              <br>
+              <br>
+              <br>
+               <div class="layout-row row">
+                  <div class="col s12 m6">
+                    <div class="layout-column"> 
+
+                        <div id="id_nationality_container" class="select-field col s12 s">
+                               <label for="id_nationality" class="">Modalidad de contratacion</label> 
+                               <select name="tipoProceso" id="tipoProceso"><option value="">---------</option><option value="1">Licitación Pública</option><option value="11">Selección Abreviada de Menor Cuantía (Ley 1150 de 2007)</option><option value="9">Subasta</option><option value="13">Contratación Mínima Cuantía</option><option value="17">Selección Abreviada servicios de Salud</option><option value="10">Concurso de Méritos con Lista Corta</option><option value="14">Concurso de Méritos con Lista Multiusos</option><option value="15">Concurso de Méritos Abierto</option><option value="16">Lista Multiusos</option><option value="12">Contratación Directa (Ley 1150 de 2007)</option><option value="4">Régimen Especial</option><option value="2">Contratación Directa Menor Cuantía</option><option value="3">Otras Formas de Contratación Directa</option><option value="5">Invitación ofertas cooperativas o asociaciones de entidades territoriales</option><option value="18">Selección Abreviada del literal h del numeral 2 del artículo 2 de la Ley 1150 de 2007</option><option value="19">Asociación Público Privada</option><option value="20">Iniciativa Privada sin recursos públicos</option></select>
+                        </div>
+                        <div id="id_nationality_container" class="select-field col s12 ">
+                               <label for="id_nationality" class="">Cuantía</label> 
+                               <select name="cuantia" id="cuantia" style="width: 200px;">
+                                                    <option value="0" selected="selected">---------</option>
+                                                    <option value="1">$0 - $100,000,000</option>
+                                                    <option value="2">$100,000,001 - $300,000,000</option>
+                                                    <option value="3">$300,000,001 - $500,000,000</option>
+                                                    <option value="4">$500,000,001 - $1,000,000,000</option>
+                                                    <option value="5">Mayores a $1,000,000,000</option>
+                               </select>
+                        </div>
+
+                    </div>
+                  </div>
+                  <div class="col s12 m6">
+
+                    <div class="row">
+                        <div class="layout-column">
+
+                                <div id="id_nationality_container" class="select-field col s12 ">
+                                    <label for="id_nationality" class="">Region</label> 
+
+                                  <select name="departamento" id="selDepartamento" >
+                                    <option value="">---------</option><option value="91000">Amazonas</option><option value="5000">Antioquia</option><option value="81000">Arauca</option><option value="8000">Atlántico</option><option value="1100">Bogotá D.C.</option><option value="1300">Bolívar</option><option value="15000">Boyacá</option><option value="17000">Caldas</option><option value="1800">Caquetá</option><option value="85000">Casanare</option><option value="19000">Cauca</option><option value="20000">Cesar</option><option value="27000">Chocó</option><option value="00002">Colombia</option><option value="25000">Cundinamarca</option><option value="23000">Córdoba</option><option value="94000">Guainía</option><option value="95000">Guaviare</option><option value="41000">Huila</option><option value="44000">La Guajira</option><option value="47000">Magdalena</option><option value="50000">Meta</option><option value="52000">Nariño</option><option value="54000">Norte De Santander</option><option value="00000">Otros Paises</option><option value="86000">Putumayo</option><option value="63000">Quindío</option><option value="66000">Risaralda</option><option value="88000">San Andrés, Providencia y Santa Catalina</option><option value="668000">Santander</option><option value="70000">Sucre</option><option value="73000">Tolima</option><option value="76000">Valle del Cauca</option><option value="97000">Vaupés</option><option value="99000">Vichada</option>
+                                  </select>
+
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="layout-row row">
+                      <div class="col s12 m6">
+                          <div class="row">
+                            <div id="id_date_desde" class="input-field col s12 ">
+                                <input type="text" name="date_of" id="id_date" data-date-format="d/m/Y" data-form-control="date"><label for="id_date" class="active">Fecha desde</label>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col s12 m6">
+                          <div class="row">
+                              <div id="id_date_hasta" class="input-field col s12">
+                                  <input type="text" name="date_of_birth" id="id_date_of_birth" data-date-format="d/m/Y" data-form-control="date">
+                                  <label for="id_date_of_birth" class="active">Fecha hasta</label>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+               </div>
+                
+               <div class="card-action center-align">
+               <br>
+                 <button type="submit" class="btn btn-primary" id="btn-search"><i class="mdi-action-search"></i> Buscar</button>
+               </div>
+
+               <div align="center" id="msg" style="display: none"><small>Espere por favor, esta operacion puede tardar un poco...</small></div>
+
           </form>
         </div>
       </div>
@@ -96,8 +164,8 @@
         <div class="cube1"></div>
         <div class="cube2"></div>
       </div>
-    </div>
   </div>
+</div>
   </main>
   <script>
     $("#search-form").submit(function(e){
