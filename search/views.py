@@ -1,11 +1,14 @@
 from django.shortcuts import render
+from django.core import serializers
+from django.http import JsonResponse
+import json
 from django.shortcuts import redirect
 from django.contrib import auth
 from django.views.generic import View
 from .mixins import LoginRequiredMixin
 from BeautifulSoup import BeautifulSoup
 import requests
-
+from  models import *
 
 
 class Home(LoginRequiredMixin, View):
@@ -13,21 +16,29 @@ class Home(LoginRequiredMixin, View):
     url = "https://www.contratos.gov.co/consultas/resultadosConsulta.do?codi_estado=2&numeroProceso=#"
 
     def get(self, request):
-         key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
-
-         return render(request, self.template_name, {"words": key_words})
+        ctx ={}
+        key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
+        ctx['key_words'] = serializers.serialize("json", KeyWord.objects.all())
+        print ctx
+        return render(request, self.template_name, ctx)
 
     def post(self, request):
-        r = requests.post(self.url, data={'tipoProceso': 1, 'objeto': '10000000', 'registrosXPagina': '15000',})
+        r = requests.post(self.url, data={'tipoProceso': '1', 'objeto': '10000000', 'registrosXPagina': '15000',})
+        print r
         soup = BeautifulSoup(r.text)
+
         results = []
         key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
 
+        print key_words
         for row in soup('table')[0].findAll('tr'):
+
             tds = row('td')
             words = str(tds[5].string).split(" ")
+
             for word in words:
                 if word.lower() in key_words:
+        
                     results.append(self.row_to_dict(row))
                     break
 

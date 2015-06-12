@@ -82,10 +82,15 @@
     <div class="card">
       <div class="card-content">
             <span class="card-title black-text">Buscador de licitaciones</span>
-
+      
           <form action="." method="post" id="search-form"> {% csrf_token %}                   
               <div class="row">
-                <strong>Palabras claves:</strong> {% for w in words %} {{ w }}, {% endfor %}
+                <strong>Palabras claves:</strong>
+                 
+                  <input type="text" id="word">
+                  <a href="#" id="boton" onclick="add()">Agregar</a>
+                  <ul id="list"></ul>
+        
               </div>
               <br>
               <br>
@@ -94,7 +99,7 @@
                   <div class="col s12 m6">
                     <div class="layout-column"> 
 
-                        <div id="id_nationality_container" class="select-field col s12 s">
+                        <div id="id_nationality_container" class="select-field col s12 ">
                                <label for="id_nationality" class="">Modalidad de contratacion</label> 
                                <select name="tipoProceso" id="tipoProceso"><option value="">---------</option><option value="1">Licitación Pública</option><option value="11">Selección Abreviada de Menor Cuantía (Ley 1150 de 2007)</option><option value="9">Subasta</option><option value="13">Contratación Mínima Cuantía</option><option value="17">Selección Abreviada servicios de Salud</option><option value="10">Concurso de Méritos con Lista Corta</option><option value="14">Concurso de Méritos con Lista Multiusos</option><option value="15">Concurso de Méritos Abierto</option><option value="16">Lista Multiusos</option><option value="12">Contratación Directa (Ley 1150 de 2007)</option><option value="4">Régimen Especial</option><option value="2">Contratación Directa Menor Cuantía</option><option value="3">Otras Formas de Contratación Directa</option><option value="5">Invitación ofertas cooperativas o asociaciones de entidades territoriales</option><option value="18">Selección Abreviada del literal h del numeral 2 del artículo 2 de la Ley 1150 de 2007</option><option value="19">Asociación Público Privada</option><option value="20">Iniciativa Privada sin recursos públicos</option></select>
                         </div>
@@ -168,11 +173,53 @@
 </div>
   </main>
   <script>
-    $("#search-form").submit(function(e){
-        $("#btn-search").attr('disabled','disabled'); 
-        $("#spinner").show();
-        $("#msg").show();
-    });  
+      $("#search-form").submit(function(e){
+          $("#btn-search").attr('disabled','disabled'); 
+          $("#spinner").show();
+          $("#msg").show();
+      });
+      
+      var word;
+      var words = [];
+      var aux = {{key_words| safe}};
+
+      for (var i = 0; i < aux.length; i++) {
+       words.push(aux[i].fields.name); 
+       agregar();
+      };
+
+      function add() {
+        
+          word =  $("#word").val();
+          words.push(word);
+          console.log(words);
+          agregar();
+      }
+      function eliminarPalabra(id){
+        
+        words.splice(id, 1);
+        agregar();
+         
+      }
+
+      function agregar() {
+                  
+          $("#list").html("");
+
+          for (var i = 0; i < words.length; i++) {
+            if(words[i] != "" & words[i] != " " ){
+
+              $("#list").append(
+                '<li class="collection-item"> <a class="waves-effect waves-light btn">'+words[i]+'<i class="mdi-action-highlight-remove right" onclick="javascript:eliminarPalabra('+i+');"></i></a></li>');
+              
+              }
+            }
+
+
+      }
+
+
+
   </script>
   </body>
   </html>
