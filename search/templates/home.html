@@ -88,10 +88,11 @@
                 <strong>Palabras claves:</strong>
                  
                   <input type="text" id="word">
-                  <a href="#" id="boton" onclick="add()">Agregar</a>
+                  <a href="#" id="boton" onclick="add()" >Agregar</a>
                   <ul id="list"></ul>
         
               </div>
+              <br>
               <br>
               <br>
               <br>
@@ -137,14 +138,14 @@
                       <div class="col s12 m6">
                           <div class="row">
                             <div id="id_date_desde" class="input-field col s12 ">
-                                <input type="text" name="date_of" id="id_date" data-date-format="d/m/Y" data-form-control="date"><label for="id_date" class="active">Fecha desde</label>
+                                <input type="text" name="fechaInicial" id="id_date" data-date-format="d/m/Y" data-form-control="date"><label for="id_date" class="active">Fecha desde</label>
                             </div>
                           </div>
                       </div>
                       <div class="col s12 m6">
                           <div class="row">
                               <div id="id_date_hasta" class="input-field col s12">
-                                  <input type="text" name="date_of_birth" id="id_date_of_birth" data-date-format="d/m/Y" data-form-control="date">
+                                  <input type="text" name="fechaFinal" id="id_date_of_birth" data-date-format="d/m/Y" data-form-control="date">
                                   <label for="id_date_of_birth" class="active">Fecha hasta</label>
                               </div>
                           </div>
@@ -161,7 +162,7 @@
                </div>
 
                <div align="center" id="msg" style="display: none"><small>Espere por favor, esta operacion puede tardar un poco...</small></div>
-
+              
           </form>
         </div>
       </div>
@@ -183,6 +184,8 @@
       var words = [];
       var aux = {{key_words| safe}};
 
+
+
       for (var i = 0; i < aux.length; i++) {
        words.push(aux[i].fields.name); 
        agregar();
@@ -195,28 +198,34 @@
           console.log(words);
           agregar();
       }
+
       function eliminarPalabra(id){
-        
         words.splice(id, 1);
         agregar();
          
       }
+
+
 
       function agregar() {
                   
           $("#list").html("");
 
           for (var i = 0; i < words.length; i++) {
-            if(words[i] != "" & words[i] != " " ){
-
+            if(words[i] != "" ){
+              var data = '<input type="text" name="key_words[]" value="'+words[i]+'" hidden>'
               $("#list").append(
-                '<li class="collection-item"> <a class="waves-effect waves-light btn">'+words[i]+'<i class="mdi-action-highlight-remove right" onclick="javascript:eliminarPalabra('+i+');"></i></a></li>');
-              
-              }
-            }
+
+                '<a class="waves-effect waves-light btn" value ="'+words[i]+'">'+words[i]+'<i class="mdi-action-highlight-remove right" style="color:red;" onclick="javascript:eliminarPalabra('+i+');"></i>'+data+'</a>');
+              $("#word").val("");
+             }
+
+          }
 
 
       }
+
+      
 
 
 

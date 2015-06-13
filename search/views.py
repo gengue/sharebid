@@ -9,7 +9,7 @@ from .mixins import LoginRequiredMixin
 from BeautifulSoup import BeautifulSoup
 import requests
 from  models import *
-
+import re
 
 class Home(LoginRequiredMixin, View):
     template_name = 'home.html'
@@ -19,26 +19,38 @@ class Home(LoginRequiredMixin, View):
         ctx ={}
         key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
         ctx['key_words'] = serializers.serialize("json", KeyWord.objects.all())
-        print ctx
+        
         return render(request, self.template_name, ctx)
 
     def post(self, request):
-        r = requests.post(self.url, data={'tipoProceso': '1', 'objeto': '10000000', 'registrosXPagina': '15000',})
-        print r
+
+        r = requests.post(self.url, data={
+                'tipoProceso': '1', 'objeto': '10000000',
+                'registrosXPagina': '15000', 'cuantia': request.POST.get("cuantia", 0), 'departamento': request.POST.getlist("departamento"), 
+                'fechaInicial': request.POST.get("fechaInicial"), 'fechaFinal': request.POST.get("fechaFinal")
+            })
+
+        
+        
         soup = BeautifulSoup(r.text)
 
         results = []
-        key_words = tuple([k['name'].lower() for k in request.user.keyword_set.values('name')])
+        key_words =  request.POST.getlist("key_words[]", None)
 
-        print key_words
+
+        key_words = [k.lower() for k in key_words]
+        
+            
         for row in soup('table')[0].findAll('tr'):
 
             tds = row('td')
             words = str(tds[5].string).split(" ")
-
+            
             for word in words:
-                if word.lower() in key_words:
-        
+                word = word.replace("&nbsp;", " ")
+                word = re.sub('[,.!#@]', '', word)
+
+                if word.decode('utf-8').lower() in key_words:
                     results.append(self.row_to_dict(row))
                     break
 
